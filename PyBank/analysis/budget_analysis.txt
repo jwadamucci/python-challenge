@@ -1,0 +1,7 @@
+Financial Analysis
+|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+Total Months: 86
+Total Ending Value: $22,564,198.00
+Average Change: $252,649.59
+Greatest Profit (Month / Amount): Mar-13 / $1,141,840.00
+Lowest Profit (Month / Amount): Dec-10 / $-1,194,133.00
