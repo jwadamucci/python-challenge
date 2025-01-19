@@ -6,7 +6,7 @@ import csv
 import os
 
 #get current working directory to make sure the files are present
-print(os.getcwd())
+#print(os.getcwd())
 
 
 # Files to load and output (update with correct file paths)
@@ -37,30 +37,37 @@ with open(file_to_load) as financial_data:
     first_data = next(reader)
     total_value = first_data[1]
     total_months = total_months + 1
+    last_value = first_data[1]
 
     # Process each row of data
     # I did not expect to have to cast each veriable as an integer for all the calculations.
     for row in reader:
-    
+        
         #count the months
         total_months = total_months + 1    
 
         # Track the total
         total_value = int(total_value) + int(row[1])
-
+       
         # Track the net change
-        total_net = int(total_net) + int(row[1])
+        net_change = int(row[1]) - int(last_value)
+        #print(f"net change is  {'${:,.2f}'.format(net_change)}")
+        last_value = int(row[1])
+        total_net = total_net + net_change
+        #print(f"Total Net is  {'${:,.2f}'.format(total_net)}")
 
         # Calculate the greatest increase in profits (month and amount)
-        if int(row[1]) > largest_gain:
-            largest_gain = int(row[1])
+        if net_change > largest_gain:
+            largest_gain = net_change
             largest_gain_month = row[0]
 
 
         # Calculate the greatest decrease in losses (month and amount)
-        if int(row[1]) < largest_loss:
-            largest_loss = int(row[1])
+        if net_change < largest_loss:
+            largest_loss = net_change
             largest_loss_month = row[0]
+
+        
 
 # Calculate the average net change across the months
 # the changes happen over one less month than the total months
@@ -74,11 +81,11 @@ average_change = total_net / (total_months - 1)
 print(f"Financial Analysis")
 print(f"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|")
 print(f"Total Months: {total_months}")
-print(f"Total Ending Value: {"${:,.2f}".format(total_value)}")
-#print(f"Total Change: {"${:,.2f}".format(total_net)}")
-print(f"Average Change: {"${:,.2f}".format(average_change)}")
-print(f"Greatest Profit (Month / Amount): {largest_gain_month} / {"${:,.2f}".format(largest_gain)}")
-print(f"Lowest Profit (Month / Amount): {largest_loss_month} / {"${:,.2f}".format(largest_loss)}")
+print(f"Total Ending Value: {'${:,.2f}'.format(total_value)}")
+#print(f"Total Change: {'${:,.2f}'.format(total_net)}")
+print(f"Average Change: {'${:,.2f}'.format(average_change)}")
+print(f"Greatest Profit (Month / Amount): {largest_gain_month} / {'${:,.2f}'.format(largest_gain)}")
+print(f"Lowest Profit (Month / Amount): {largest_loss_month} / {'${:,.2f}'.format(largest_loss)}")
 
 # Write the results to a text file
 with open(file_to_output, "w") as txt_file:
@@ -86,8 +93,8 @@ with open(file_to_output, "w") as txt_file:
     txt_file.write(f"Financial Analysis\n")
     txt_file.write(f"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n")
     txt_file.write(f"Total Months: {total_months}\n")
-    txt_file.write(f"Total Ending Value: {"${:,.2f}".format(total_value)}\n")
-    #txt_file.write(f"Total Change: {"${:,.2f}".format(total_net)}\n")
-    txt_file.write(f"Average Change: {"${:,.2f}".format(average_change)}\n")
-    txt_file.write(f"Greatest Profit (Month / Amount): {largest_gain_month} / {"${:,.2f}".format(largest_gain)}\n")
-    txt_file.write(f"Lowest Profit (Month / Amount): {largest_loss_month} / {"${:,.2f}".format(largest_loss)}\n")
+    txt_file.write(f"Total Ending Value: {'${:,.2f}'.format(total_value)}\n")
+    #txt_file.write(f"Total Change: {'${:,.2f}'.format(total_net)}\n")
+    txt_file.write(f"Average Change: {'${:,.2f}'.format(average_change)}\n")
+    txt_file.write(f"Greatest Profit (Month / Amount): {largest_gain_month} / {'${:,.2f}'.format(largest_gain)}\n")
+    txt_file.write(f"Lowest Profit (Month / Amount): {largest_loss_month} / {'${:,.2f}'.format(largest_loss)}\n")
